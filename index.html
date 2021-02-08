@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRF REST API</title>
+</head>
+<style>
+    .margin{
+        margin-top: 5%;
+    }
+    table{
+        width: 100%;
+        border: 1px solid black;
+    }
+    th{
+        padding: 5px;
+        background: #333;
+        border-bottom: 1px solid #fff;
+        color: #fff;
+    }
+    tr{
+        text-align: center;
+    }
+    .success{
+        color: green;
+    }
+</style>
+<body>
+    <h1>REGISTER USER</h1>
+    <form id="form">
+        <label for="">Full Name</label>
+        <input type="text" name="name" placeholder="Write Name Here">
+        <label for="">Your User</label>
+        <input type="text" name="user" placeholder="Write User Here">
+        <label for="">Your Password</label>
+        <input type="text" name="password" placeholder="Write Password Here">
+        <button type="submit">Submit</button>
+    </form>
+    <div id="createResult">
+        
+    </div>
+    <div class="margin">
+    <h1>USER LIST</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>User</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <tbody id="show_user_data">
+        </tbody>
+    </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        let formCreateUser = document.forms[0]
+        let showData = document.getElementById('show_user_data')
+        getDataFetch(showData,'http://localhost/frfrest/users.json')
+        formCreateUser.addEventListener('submit', (e)=>{
+            e.preventDefault();
+            let getName = formCreateUser.name.value
+            let getUser = formCreateUser.user.value
+            let getPass = formCreateUser.password.value
+            let message = document.getElementById('createResult')
+            message.innerHTML = '';
+            if(getName === '' || getPass === '' || getPass ===''){
+                message.innerHTML = 'Values empy'
+            }else{
+                const userCreate = {
+                    id: 1,
+                    name: getName,
+                    user: getUser,
+                    pass: getPass
+                }
+               console.log(userCreate)
+               const xhttp = new XMLHttpRequest()
+               xhttp.onreadystatechange = () =>{
+                    if(xhttp.status == 200 && xhttp.readyState == 4){
+                        let response = xhttp.responseText
+                        if(response == 200){
+                            message.innerHTML = '<span class="success">Create Success</span>';
+                            formCreateUser.name.value= ''
+                            formCreateUser.user.value = ''
+                            formCreateUser.password.value = ''
+                            getDataFetch(showData,'http://localhost/frfrest/users.json')
+                        }
+                    }
+               }
+               xhttp.open('POST','php/user.php', true)
+               //xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+               xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+               xhttp.send(JSON.stringify(userCreate))
+            }
+        })
+
+        function getDataFetch(idData, url){
+            idData.innerHTML = ''
+            fetch(url)
+            .then(res => res.json())
+            .then(data =>{
+                data.forEach(dataUser => {
+                    idData.innerHTML+= `
+                    <tr>
+                        <td>${dataUser.id}</td>
+                        <td>${dataUser.name}</td>
+                        <td>${dataUser.user}</td>
+                        <td>${dataUser.password}</td>
+                    </tr>
+                    
+                    `
+                });
+            })
+        }
+    </script>
+</body>
+</html>
