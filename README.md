@@ -337,7 +337,70 @@ let regeExp = /(\*|!|#|\$|[¿^ºª?]|[(]|[)]|"|<|\/|>|-|%|{|}|[+]|[\]|[\\]|[.]|R
 let cleanText = text.replaceAll(regeExp, '');
 console.log(cleanText)
 ```
+## JAVASCRIPT - COPY CONTENT
+```
+#code-content-example-zsh {
+    user-select: all;
+    -moz-user-select: all;
+    -webkit-user-select: all;
+}
 
+function copyFunction(codeCopy) {
+  const textArea = document.createElement('textarea');
+  textArea.textContent = codeCopy;
+  document.body.append(textArea);
+  textArea.select();
+  if(document.execCommand("copy")){
+      textArea.remove()
+  }
+  setTimeout(() => { 
+  }, 1000);
+}
+      
+let getExampleCode = document.querySelectorAll('#code-content-example');
+getExampleCode.forEach(createButton => {
+  createButton.addEventListener('click', ()=>{
+    setTimeout(() => {
+      copyFunction(createButton.textContent)
+    }, 1500);
+  })
+});
+```
+## SHOWTIME
+
+```
+//SHOW TIME
+setInterval(showTime, 1000);
+
+function showTime(){
+    let getTime = new Date()
+    let getFieldDate = document.getElementById('date')
+    let setNewFormat
+    let hours = getTime.getHours()
+    let minutes = getTime.getMinutes()
+    let seconds = getTime.getSeconds()
+
+    if(hours >= 13 || (hours - 12) == 0){
+        let getHour = (hours - 12)
+        if( getHour == 0){
+            setNewFormat = hours + ":" + convertTimeDayNumbers(minutes)+ ":" + convertTimeDayNumbers(seconds) + ' PM'
+        }else{
+            setNewFormat = convertTimeDayNumbers(getHour) + ":" + convertTimeDayNumbers(minutes)+ ":" + convertTimeDayNumbers(seconds) + ' PM'
+        }
+    }else{
+        setNewFormat = convertTimeDayNumbers(hours) + ":" + convertTimeDayNumbers(minutes)+ ":" + convertTimeDayNumbers(seconds) + ' AM'
+    }
+    getFieldDate.innerHTML = orderDate[2] + '-'+ orderDate[1]+ '-' + orderDate[0] + ' ' +setNewFormat
+}
+
+function convertTimeDayNumbers(number){
+    if(number <= 9){
+        return '0'+number
+    }else{
+        return number
+    }
+}
+```
 ### EXPRESSJS
 
 Get information 
