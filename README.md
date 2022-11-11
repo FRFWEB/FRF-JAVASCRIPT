@@ -357,6 +357,23 @@ document.addEventListener('keydown',(event) =>{
   }
 });
 ```
+### JAVSCRIPT TO MARKADOWN
+
+```
+function markdownParser(text) {
+ const toHTML = text
+   .replace(/^##### (.*$)/gim, "<h5>$1</h5>") // h5 tag
+   .replace(/^#### (.*$)/gim, "<h4>$1</h4>") // h3 tag
+   .replace(/^### (.*$)/gim, "<h3>$1</h3>") // h3 tag
+   .replace(/^## (.*$)/gim, "<h2>$1</h2>") // h2 tag
+   .replace(/^# (.*$)/gim, "<h1>$1</h1>") // h1 tag
+   .replace(/\*\*(.*)\*\*/gim, "<b>$1</b>") // bold text
+   .replace(/\*(.*)\*/gim, "<i>$1</i>") // italic text
+   .replace(/\n/gim, "<br/>"); // splaces;
+   return toHTML.trim(); // using trim method to remove whitespace
+}
+```
+
 ### MY REGEXP
 
 This code replaces both the special characters and the text that is not necessary, for this code snippet to be understandable, you should know that the syntax of regexp is to put /( )/g, which indicates that it will search globally for certain characters and using | Each character to search is separated /(demo|RGBA)/g, there are situations in which it is necessary to place brackets [?], so that it looks for the result or backslash followed by the expression \$
