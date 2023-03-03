@@ -466,6 +466,7 @@ main.js - backend
 
 add in the Browser Object
 
+```
  webPreferences: {
     nodeIntegration: true,
     contextIsolation: false,
@@ -480,7 +481,11 @@ ipcMain.on('open-directory', async (event, args)=>{
     const dirName = await dir.filePaths[0]
     event.returnValue = dirName
 })
-
+```
 app.js - front-end
- const { ipcRenderer } = require('electron')
-ipcRenderer.sendSync('open-directory')
+
+```
+const { ipcRenderer } = require('electron')
+//CALL FUNCTION and get result
+let result = ipcRenderer.sendSync('open-directory')
+```
