@@ -357,6 +357,73 @@ document.addEventListener('keydown',(event) =>{
   }
 });
 ```
+
+### FILTER USER EVENT INPUT IN JAVASCRIPT
+
+Example
+
+```
+ const words = [
+  "manzana",
+  "banano",
+  "cereza",
+  "dulce",
+  "elefante",
+  "fresa",
+  "gato",
+  "hamburguesa",
+  "iguana",
+  "jirafa",
+  "kiwi",
+  "limón",
+  "maní",
+  "naranja",
+  "ojo",
+  "perro",
+  "queso",
+  "ratón",
+  "sandía",
+  "tomate",
+  "uva",
+  "vaca",
+  "zanahoria"
+];
+	// GET DIV AND INPUT
+  let getInputSearchProduct = document.getElementById('search_product')
+  let resultsSearch = document.getElementById("results");
+	//INPUT EVENT
+  getInputSearchProduct.addEventListener('input', async (e) =>{
+    if(e.target.value != null && e.target.value.split('').length >= 2){
+      let searchValue = e.target.value.toLowerCase()
+      resultsSearch.innerHTML = ''
+      //CHECK IF EXTIS ITEM
+      const filteredWords = words.filter(word => word.startsWith(searchValue))
+      if(filteredWords == ''){
+        const div = document.createElement("div");
+        div.classList.add(['form-control'],['element-cursor-pointer'])
+        div.textContent = 'PRODUCTO NO EXISTE';
+        resultsSearch.appendChild(div);
+        return
+      }
+	//SHOW DATA IF EXITS PRODUCT
+      resultsSearch.innerHTML = "";
+      filteredWords.forEach(word => {
+          const div = document.createElement("div");
+          div.classList.add(['form-control'],['element-cursor-pointer'])
+          div.textContent = word;
+          div.addEventListener("click", function() {
+            getInputSearchProduct.value = word;
+            resultsSearch.innerHTML = "";
+          });
+        resultsSearch.appendChild(div);
+      })
+      return
+    }
+    resultsSearch.innerHTML = "";
+  });
+```
+
+
 ### JAVSCRIPT TO MARKADOWN
 
 ```
