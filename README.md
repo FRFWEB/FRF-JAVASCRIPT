@@ -556,3 +556,39 @@ const { ipcRenderer } = require('electron')
 //CALL FUNCTION and get result
 let result = ipcRenderer.sendSync('open-directory')
 ```
+## NODEJS
+
+### SEARCH TYPE FILE IN ALL YOUR DIRECTORY
+
+```
+function readFolders(getDir) {
+  fs.readdir(getDir, (err, files) => {
+    if (err) {
+      console.log(err)
+    } else {
+      files.forEach(getFiles => {
+        fs.lstat(path.join(getDir +'/' + getFiles), (err, stats) => {
+          if (stats.isFile() == false) {
+            readFolders(getDir + '/' + getFiles)
+          } else {
+            let name = getFiles.replace('.md', '')
+            markDownToHTML(path.join(getDir + '/' + getFiles), name)
+            console.log('Generated: ' + getFiles)
+          }
+        })
+      })
+    }
+  })
+}
+```
+
+### MY REGEXP
+
+This code replaces both the special characters and the text that is not necessary, for this code snippet to be understandable, you should know that the syntax of regexp is to put /( )/g, which indicates that it will search globally for certain characters and using | Each character to search is separated /(demo|RGBA)/g, there are situations in which it is necessary to place brackets [?], so that it looks for the result or backslash followed by the expression \$
+
+```
+let text = '¿ Welcome º ª () ^ // -- {|} !! - To is M$r F%R"F \\ RGBA++ ... ?';
+let regeExp = /(\*|!|#|\$|[¿^ºª?]|[(]|[)]|"|<|\/|>|-|%|{|}|[+]|[\]|[\\]|[.]|RGBA)/g
+let cleanText = text.replaceAll(regeExp, '');
+console.log(cleanText)
+```
